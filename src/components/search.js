@@ -20,14 +20,13 @@ export default class Search extends Component {
     $.ajax({
       method: "GET",
       url:"http://localhost:9000/flickr/" + this.state.term,
-      data: data,
       cache: false,
       contentType:false,
       processData: false,
       crossDomain: true,
     }).done((data) => {
-      console.log(data);
-      this.props.ponerCodigo(data);
+      console.log(data.photos.photo);
+      this.props.ponerImagenes(data.photos.photo);
     }).fail((err) => {
       console.log("Errooooorrrrr", err);
     });
@@ -38,6 +37,7 @@ export default class Search extends Component {
     return (
       <div>
         <input type="text" name="term" value={this.state.person_name} onChange={this.handleChange}/>
+        <button onClick={this.handleSubmit}>Enviar</button>
       </div>
     );
   }

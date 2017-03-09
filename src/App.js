@@ -4,17 +4,15 @@ import './App.css';
 
 
 import Search from './components/search';
-import ImageGrid from './components/grid';
+import ImageGrid from './components/imagegrid';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {image_data:[]}
+    this.state = {image_data:["img1", "img2"]}
   }
   render() {
-
-
 
     return (
       <div className="App">
@@ -26,7 +24,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <Search ponerImagenes={(images) => {this.setState({image_data: images})}}/>
-        <ImageGrid />
+        <ImageGrid imagenes={this.state.image_data}/>
       </div>
     );
   }
