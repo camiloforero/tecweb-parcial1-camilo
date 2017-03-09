@@ -8,7 +8,7 @@ export default class Search extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
     this.state={term: ""}
-  }
+  };
 
   handleChange(e) {
     var change= {};
@@ -31,9 +31,10 @@ export default class Search extends Component {
     }).fail((err) => {
       console.log("Errooooorrrrr", err);
     });
+  }
 
   render() {
-    
+
     return (
       <div>
         <input type="text" name="term" value={this.state.person_name} onChange={this.handleChange}/>
