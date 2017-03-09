@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+import Search from './components/search';
+import ImageGrid from './components/grid';
+
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {image_data:[]}
+  }
   render() {
+
+
+
     return (
       <div className="App">
         <div className="App-header">
@@ -13,7 +25,8 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <Search />
+        <Search ponerImagenes={(images) => {this.setState({image_data: images})}}/>
+        <ImageGrid />
       </div>
     );
   }
