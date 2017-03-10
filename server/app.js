@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const flickr = require("flickrapi");
 const fs = require("fs");
+const async = require("async");
 
 const app = express();
 
@@ -46,20 +47,58 @@ app.get('/flickr/:query', function (req, res) {
 		Flickr.tokenOnly(flickrOptions, function(error, flickr) {
 			console.log("tokenOnly");
 			if (error) {
+				console.log("error en el token");
+				console.log(error);
 				res.send(error);
 				return;
 			}
+			base_text = req.params["query"];
+
+			color_list = ["red" , "orange", "yellow", "green" , "blue", "indigo", "violet"]
+			numbers = [0, 1, 2, 3, 4, 5, 6]
+			var result_list = []
+			var onComplete = function() {
+				console.log("Todos los ciclos han corrido:")
+				console.log(result_list);
+				res.send(result_list);
+			};
+			console.log("entra al ciclo");
+
+			async.each(
+				numbers,
+				(index, callback) => {
+					search_params = {
+						safe:1,
+						sort:"relevance",
+						per_page: 7
+					}
+					search_params["text"] = base_text + " " + color_list[index];
+					flickr.photos.search(search_params, (err, data) => {
+						console.log("Inicia la búsqueda con índice " + index)
+
+				  	if (err) {
+							console.log("ERROR en el lado del servidor:");
+							console.log(err);
+							res.send(err);
+							return;
+						}
+				  	console.log("Got flickr data sending it:");
+						console.log(data.photos.photo);
+						result_list[index] = data.photos.photo;
+						callback();
+				  });
+				},
+				function(err){
+					onComplete();
+				}
+			);
+
 		  // we can now use "flickr" as our API object,
 		  // but we can only call public methods and access public data
-		  flickr.photos.search({
-		  	safe:1,
-		  	sort:"relevance",
-		  	text:req.params["query"]
-		  }, (err, data) => {
-		  	if (err) res.send(err);
-		  	console.log("Got flickr data sending it");
-		  	res.send(data);
-		  });
+
+
+
+
 		});
 
 	}, (err) => {

@@ -1,5 +1,21 @@
 import React, { Component } from 'react';
 
+import ImageColumn from './imagecolumn';
+
+
+
+var ListRender = React.createClass({
+  render: function() {
+    return(
+      <div>
+        {this.props.list.map((columna) => {
+          return <ImageColumn imagenes={columna} />
+        })}
+      </div>
+    )
+  }
+})
+
 export default class ImageGrid extends Component {
 
   constructor(props) {
@@ -9,9 +25,10 @@ export default class ImageGrid extends Component {
   render() {
     console.log(this.props.imagenes);
     return (
-      <div>
-        <h3>Imágenes</h3>
-        {JSON.stringify(this.props.imagenes)}
+      <div className="container-fluid">
+        <div className="row">
+          <ListRender list={this.props.imagenes} />
+        </div>
       </div>
     );
   }

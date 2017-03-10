@@ -25,8 +25,8 @@ export default class Search extends Component {
       processData: false,
       crossDomain: true,
     }).done((data) => {
-      console.log(data.photos.photo);
-      this.props.ponerImagenes(data.photos.photo);
+      console.log(data);
+      this.props.ponerImagenes(data);
     }).fail((err) => {
       console.log("Errooooorrrrr", err);
     });
